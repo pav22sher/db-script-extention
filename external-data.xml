@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+  <object-set>
+    <table path="postgres.public.accounts">
+      <column name="base_info" expr="user_id || &apos;,&apos; || username || &apos;,&apos; || password"/>
+    </table>
+    <schema path="postgres.public">
+      <view name="Размер БД" query="select datname as &quot;БД&quot;,&#xa;       pg_size_pretty(pg_database_size(datname)) as &quot;Размер&quot;&#xa;from pg_database&#xa;where datname = &apos;postgres&apos;&#xa;order BY pg_database_size(datname) DESC;"/>
+      <view name="Размер схемы" query="SELECT table_schema, pg_size_pretty(SUM(pg_total_relation_size(table_schema || &apos;.&apos; || table_name)))&#xa;FROM information_schema.tables&#xa;WHERE table_schema = &apos;public&apos;&#xa;GROUP BY table_schema&#xa;ORDER BY SUM(pg_total_relation_size(table_schema || &apos;.&apos; || table_name)) DESC;"/>
+      <view name="Размер таблиц" query="SELECT table_name, pg_size_pretty(PG_TOTAL_RELATION_SIZE(table_schema || &apos;.&apos; || table_name)) as size&#xa;FROM information_schema.tables&#xa;WHERE table_schema = &apos;public&apos;&#xa;order by PG_TOTAL_RELATION_SIZE(table_schema || &apos;.&apos; || table_name) DESC;"/>
+    </schema>
+  </object-set>
+</data>

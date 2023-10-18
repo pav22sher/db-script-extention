@@ -1,34 +1,35 @@
+<meta charset="window-1251">
 # IntelliJ IDEA Scripted Extension
 ![](imgs/img.png)
 
-Инструмент похожий на плагин.
-Несколько строк кода Groovy и можно что-то сделать с таблицами и их данными.
-Scripted Extension — простой скрипт Groovy, состоящий из одного файла. 
-Однако IDEA не даст вам много возможностей для отладки или разумного завершения кода.
+Г€Г­Г±ГІГ°ГіГ¬ГҐГ­ГІ ГЇГ®ГµГ®Г¦ГЁГ© Г­Г  ГЇГ«Г ГЈГЁГ­.
+ГЌГҐГ±ГЄГ®Г«ГјГЄГ® Г±ГІГ°Г®ГЄ ГЄГ®Г¤Г  Groovy ГЁ Г¬Г®Г¦Г­Г® Г·ГІГ®-ГІГ® Г±Г¤ГҐГ«Г ГІГј Г± ГІГ ГЎГ«ГЁГ¶Г Г¬ГЁ ГЁ ГЁГµ Г¤Г Г­Г­Г»Г¬ГЁ.
+Scripted Extension вЂ” ГЇГ°Г®Г±ГІГ®Г© Г±ГЄГ°ГЁГЇГІ Groovy, Г±Г®Г±ГІГ®ГїГ№ГЁГ© ГЁГ§ Г®Г¤Г­Г®ГЈГ® ГґГ Г©Г«Г . 
+ГЋГ¤Г­Г ГЄГ® IDEA Г­ГҐ Г¤Г Г±ГІ ГўГ Г¬ Г¬Г­Г®ГЈГ® ГўГ®Г§Г¬Г®Г¦Г­Г®Г±ГІГҐГ© Г¤Г«Гї Г®ГІГ«Г Г¤ГЄГЁ ГЁГ«ГЁ Г°Г Г§ГіГ¬Г­Г®ГЈГ® Г§Г ГўГҐГ°ГёГҐГ­ГЁГї ГЄГ®Г¤Г .
 
-[src_database-openapi.zip](src_database-openapi.zip) - этот ZIP-архив содержит исходный код расширения OpenAPI.
-Поскольку для скриптовых расширений не существует опубликованного JavaDoc API, 
-изучение OpenAPI является основным источником информации.
+[src_database-openapi.zip](src_database-openapi.zip) - ГЅГІГ®ГІ ZIP-Г Г°ГµГЁГў Г±Г®Г¤ГҐГ°Г¦ГЁГІ ГЁГ±ГµГ®Г¤Г­Г»Г© ГЄГ®Г¤ Г°Г Г±ГёГЁГ°ГҐГ­ГЁГї OpenAPI.
+ГЏГ®Г±ГЄГ®Г«ГјГЄГі Г¤Г«Гї Г±ГЄГ°ГЁГЇГІГ®ГўГ»Гµ Г°Г Г±ГёГЁГ°ГҐГ­ГЁГ© Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ Г®ГЇГіГЎГ«ГЁГЄГ®ГўГ Г­Г­Г®ГЈГ® JavaDoc API, 
+ГЁГ§ГіГ·ГҐГ­ГЁГҐ OpenAPI ГїГўГ«ГїГҐГІГ±Гї Г®Г±Г­Г®ГўГ­Г»Г¬ ГЁГ±ГІГ®Г·Г­ГЁГЄГ®Г¬ ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГЁ.
 
 OpenAPI
 ---
 ### SchemaGeneratorBindings
 ```java
 public final class SchemaGeneratorBindings {
-    //проект, который в данный момент открыт
+    //ГЇГ°Г®ГҐГЄГІ, ГЄГ®ГІГ®Г°Г»Г© Гў Г¤Г Г­Г­Г»Г© Г¬Г®Г¬ГҐГ­ГІ Г®ГІГЄГ°Г»ГІ
     public static final Binding<Project> PROJECT = new Binding<>("PROJECT");
-    //коллекция объектов, выбранных пользователем
+    //ГЄГ®Г«Г«ГҐГЄГ¶ГЁГї Г®ГЎГєГҐГЄГІГ®Гў, ГўГ»ГЎГ°Г Г­Г­Г»Гµ ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«ГҐГ¬
     public static final Binding<JBIterable<DasObject>> SELECTION = new Binding<>("SELECTION");
-    //буфер обмена
+    //ГЎГіГґГҐГ° Г®ГЎГ¬ГҐГ­Г 
     public static final Binding<Clipboard> CLIPBOARD = new Binding<>("CLIPBOARD");
-    //журнал логов
+    //Г¦ГіГ°Г­Г Г« Г«Г®ГЈГ®Гў
     public static final Binding<ScriptLogger> LOG = new Binding<>("LOG");
-    //сохранения файлов
+    //Г±Г®ГµГ°Г Г­ГҐГ­ГЁГї ГґГ Г©Г«Г®Гў
     public static final Binding<Files> FILES = new Binding<>("FILES");
 }
 ```
 ### Log
-По умолчанию LOG записывает все в IntelliJ IDEA Log (Help|Open Log in Editor|idea.log).
+ГЏГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ LOG Г§Г ГЇГЁГ±Г»ГўГ ГҐГІ ГўГ±ГҐ Гў IntelliJ IDEA Log (Help|Open Log in Editor|idea.log).
 ```java
 public interface ScriptLogger {
   void print(@NotNull String message);
@@ -53,21 +54,21 @@ public interface Files {
 ```
 ---
 ### DasUtil
-Статические методы:  
-getCatalog, getSchema, isPrimary, isForeign, hasAttribute, getPrimaryKey, getColumns и т.д.
+Г‘ГІГ ГІГЁГ·ГҐГ±ГЄГЁГҐ Г¬ГҐГІГ®Г¤Г»:  
+getCatalog, getSchema, isPrimary, isForeign, hasAttribute, getPrimaryKey, getColumns ГЁ ГІ.Г¤.
 ### Das_
-Все дерево базы данных представлено com.intellij.database.model.Das_ объектами.
+Г‚Г±ГҐ Г¤ГҐГ°ГҐГўГ® ГЎГ Г§Г» Г¤Г Г­Г­Г»Гµ ГЇГ°ГҐГ¤Г±ГІГ ГўГ«ГҐГ­Г® com.intellij.database.model.Das_ Г®ГЎГєГҐГЄГІГ Г¬ГЁ.
 
-Часто используемые интерфейсы:
-* DasNamed - getName, getKind(SCHEMA, TABLE, COLUMN и т.д.)
+Г—Г Г±ГІГ® ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГ¬Г»ГҐ ГЁГ­ГІГҐГ°ГґГҐГ©Г±Г»:
+* DasNamed - getName, getKind(SCHEMA, TABLE, COLUMN ГЁ ГІ.Г¤.)
 * DasObject - getComment, getDasParent, getDasChildren
-* DasSchemaChild - дочерний элемент схемы
-* DasTable - таблица
-* DasTableChild - дочерний элемент таблицы
-* DasColumn - колонка
-* DasConstraint - ограничения
-* DasTableKey - ключ isPrimary
-* DasForeignKey - внешний ключ getRefTableName
+* DasSchemaChild - Г¤Г®Г·ГҐГ°Г­ГЁГ© ГЅГ«ГҐГ¬ГҐГ­ГІ Г±ГµГҐГ¬Г»
+* DasTable - ГІГ ГЎГ«ГЁГ¶Г 
+* DasTableChild - Г¤Г®Г·ГҐГ°Г­ГЁГ© ГЅГ«ГҐГ¬ГҐГ­ГІ ГІГ ГЎГ«ГЁГ¶Г»
+* DasColumn - ГЄГ®Г«Г®Г­ГЄГ 
+* DasConstraint - Г®ГЈГ°Г Г­ГЁГ·ГҐГ­ГЁГї
+* DasTableKey - ГЄГ«ГѕГ· isPrimary
+* DasForeignKey - ГўГ­ГҐГёГ­ГЁГ© ГЄГ«ГѕГ· getRefTableName
 
 
 ---
@@ -90,8 +91,8 @@ FILES.chooseDirectoryAndSave(//Show window for select folder for saving
 ![](imgs/aggregator.png)
 
 ### [extractors](..%2F..%2FAppData%2FRoaming%2FJetBrains%2FIntelliJIdea2023.2%2Fextensions%2Fcom.intellij.database%2Fdata%2Fextractors)
-Экспорт данных бд в CSV, JSON и SQL Insert и т.д.
-Можно написать скрипт для экспорта в кастомный формат.
+ГќГЄГ±ГЇГ®Г°ГІ Г¤Г Г­Г­Г»Гµ ГЎГ¤ Гў CSV, JSON ГЁ SQL Insert ГЁ ГІ.Г¤.
+ГЊГ®Г¦Г­Г® Г­Г ГЇГЁГ±Г ГІГј Г±ГЄГ°ГЁГЇГІ Г¤Г«Гї ГЅГЄГ±ГЇГ®Г°ГІГ  Гў ГЄГ Г±ГІГ®Г¬Г­Г»Г© ГґГ®Г°Г¬Г ГІ.
 ```groovy
 /*
  * Available context bindings:
@@ -124,14 +125,14 @@ OUT.append("END")
 ```
 
 ### [schema](..%2F..%2FAppData%2FRoaming%2FJetBrains%2FIntelliJIdea2023.2%2Fextensions%2Fcom.intellij.database%2Fschema)
-Скрипты для преобразования метаданных таблицы в DTO, Entity и т.д.
+Г‘ГЄГ°ГЁГЇГІГ» Г¤Г«Гї ГЇГ°ГҐГ®ГЎГ°Г Г§Г®ГўГ Г­ГЁГї Г¬ГҐГІГ Г¤Г Г­Г­Г»Гµ ГІГ ГЎГ«ГЁГ¶Г» Гў DTO, Entity ГЁ ГІ.Г¤.
 
 ![](imgs/schema.png)
 
-### Скрипты:
+### Г‘ГЄГ°ГЁГЇГІГ»:
 [scripts](scripts)
 
-### Ссылки:
+### Г‘Г±Г»Г«ГЄГЁ:
 * https://github.com/novotnyr/mybatis-idea-scripted-extension
 * https://programmer.group/5d6399803e956.html
 

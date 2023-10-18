@@ -1,35 +1,34 @@
-<meta charset="window-1251">
 # IntelliJ IDEA Scripted Extension
 ![](imgs/img.png)
 
-Èíñòðóìåíò ïîõîæèé íà ïëàãèí.
-Íåñêîëüêî ñòðîê êîäà Groovy è ìîæíî ÷òî-òî ñäåëàòü ñ òàáëèöàìè è èõ äàííûìè.
-Scripted Extension — ïðîñòîé ñêðèïò Groovy, ñîñòîÿùèé èç îäíîãî ôàéëà. 
-Îäíàêî IDEA íå äàñò âàì ìíîãî âîçìîæíîñòåé äëÿ îòëàäêè èëè ðàçóìíîãî çàâåðøåíèÿ êîäà.
+Инструмент похожий на плагин.
+Несколько строк кода Groovy и можно что-то сделать с таблицами и их данными.
+Scripted Extension — простой скрипт Groovy, состоящий из одного файла. 
+Однако IDEA не даст вам много возможностей для отладки или разумного завершения кода.
 
-[src_database-openapi.zip](src_database-openapi.zip) - ýòîò ZIP-àðõèâ ñîäåðæèò èñõîäíûé êîä ðàñøèðåíèÿ OpenAPI.
-Ïîñêîëüêó äëÿ ñêðèïòîâûõ ðàñøèðåíèé íå ñóùåñòâóåò îïóáëèêîâàííîãî JavaDoc API, 
-èçó÷åíèå OpenAPI ÿâëÿåòñÿ îñíîâíûì èñòî÷íèêîì èíôîðìàöèè.
+[src_database-openapi.zip](src_database-openapi.zip) - этот ZIP-архив содержит исходный код расширения OpenAPI.
+Поскольку для скриптовых расширений не существует опубликованного JavaDoc API, 
+изучение OpenAPI является основным источником информации.
 
 OpenAPI
 ---
 ### SchemaGeneratorBindings
 ```java
 public final class SchemaGeneratorBindings {
-    //ïðîåêò, êîòîðûé â äàííûé ìîìåíò îòêðûò
+    //проект, который в данный момент открыт
     public static final Binding<Project> PROJECT = new Binding<>("PROJECT");
-    //êîëëåêöèÿ îáúåêòîâ, âûáðàííûõ ïîëüçîâàòåëåì
+    //коллекция объектов, выбранных пользователем
     public static final Binding<JBIterable<DasObject>> SELECTION = new Binding<>("SELECTION");
-    //áóôåð îáìåíà
+    //буфер обмена
     public static final Binding<Clipboard> CLIPBOARD = new Binding<>("CLIPBOARD");
-    //æóðíàë ëîãîâ
+    //журнал логов
     public static final Binding<ScriptLogger> LOG = new Binding<>("LOG");
-    //ñîõðàíåíèÿ ôàéëîâ
+    //сохранения файлов
     public static final Binding<Files> FILES = new Binding<>("FILES");
 }
 ```
 ### Log
-Ïî óìîë÷àíèþ LOG çàïèñûâàåò âñå â IntelliJ IDEA Log (Help|Open Log in Editor|idea.log).
+По умолчанию LOG записывает все в IntelliJ IDEA Log (Help|Open Log in Editor|idea.log).
 ```java
 public interface ScriptLogger {
   void print(@NotNull String message);
@@ -54,21 +53,21 @@ public interface Files {
 ```
 ---
 ### DasUtil
-Ñòàòè÷åñêèå ìåòîäû:  
-getCatalog, getSchema, isPrimary, isForeign, hasAttribute, getPrimaryKey, getColumns è ò.ä.
+Статические методы:  
+getCatalog, getSchema, isPrimary, isForeign, hasAttribute, getPrimaryKey, getColumns и т.д.
 ### Das_
-Âñå äåðåâî áàçû äàííûõ ïðåäñòàâëåíî com.intellij.database.model.Das_ îáúåêòàìè.
+Все дерево базы данных представлено com.intellij.database.model.Das_ объектами.
 
-×àñòî èñïîëüçóåìûå èíòåðôåéñû:
-* DasNamed - getName, getKind(SCHEMA, TABLE, COLUMN è ò.ä.)
+Часто используемые интерфейсы:
+* DasNamed - getName, getKind(SCHEMA, TABLE, COLUMN и т.д.)
 * DasObject - getComment, getDasParent, getDasChildren
-* DasSchemaChild - äî÷åðíèé ýëåìåíò ñõåìû
-* DasTable - òàáëèöà
-* DasTableChild - äî÷åðíèé ýëåìåíò òàáëèöû
-* DasColumn - êîëîíêà
-* DasConstraint - îãðàíè÷åíèÿ
-* DasTableKey - êëþ÷ isPrimary
-* DasForeignKey - âíåøíèé êëþ÷ getRefTableName
+* DasSchemaChild - дочерний элемент схемы
+* DasTable - таблица
+* DasTableChild - дочерний элемент таблицы
+* DasColumn - колонка
+* DasConstraint - ограничения
+* DasTableKey - ключ isPrimary
+* DasForeignKey - внешний ключ getRefTableName
 
 
 ---
@@ -91,8 +90,8 @@ FILES.chooseDirectoryAndSave(//Show window for select folder for saving
 ![](imgs/aggregator.png)
 
 ### [extractors](..%2F..%2FAppData%2FRoaming%2FJetBrains%2FIntelliJIdea2023.2%2Fextensions%2Fcom.intellij.database%2Fdata%2Fextractors)
-Ýêñïîðò äàííûõ áä â CSV, JSON è SQL Insert è ò.ä.
-Ìîæíî íàïèñàòü ñêðèïò äëÿ ýêñïîðòà â êàñòîìíûé ôîðìàò.
+Экспорт данных бд в CSV, JSON и SQL Insert и т.д.
+Можно написать скрипт для экспорта в кастомный формат.
 ```groovy
 /*
  * Available context bindings:
@@ -125,14 +124,14 @@ OUT.append("END")
 ```
 
 ### [schema](..%2F..%2FAppData%2FRoaming%2FJetBrains%2FIntelliJIdea2023.2%2Fextensions%2Fcom.intellij.database%2Fschema)
-Ñêðèïòû äëÿ ïðåîáðàçîâàíèÿ ìåòàäàííûõ òàáëèöû â DTO, Entity è ò.ä.
+Скрипты для преобразования метаданных таблицы в DTO, Entity и т.д.
 
 ![](imgs/schema.png)
 
-### Ñêðèïòû:
+### Скрипты:
 [scripts](scripts)
 
-### Ññûëêè:
+### Ссылки:
 * https://github.com/novotnyr/mybatis-idea-scripted-extension
 * https://programmer.group/5d6399803e956.html
 
